@@ -23,11 +23,7 @@ public class Task3 implements Task {
             .thenComparing(Person::getFirstName)
             .thenComparing(Person::getCreatedAt);
 
-    List<Person> sortedPerson = persons.stream()
-            .sorted(comparator)
-            .collect(Collectors.toList());
-
-    return sortedPerson;
+    return persons.stream().sorted(comparator).collect(Collectors.toList());
   }
 
   @Override

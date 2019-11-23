@@ -21,17 +21,13 @@ public class Task6 implements Task {
                                             Map<Integer, Set<Integer>> personAreaIds,
                                             Collection<Area> areas) {
 
-    Set<String> personDescriptions = new HashSet<>();
-
-    for (Person p : persons) {
-      String firstName = p.getFirstName();
-      for (Integer areaId : personAreaIds.get(p.getId())) {
-        String areaName = areas.stream().filter(area -> area.getId() == areaId).findFirst().get().getName();
-        personDescriptions.add(firstName + " - " + areaName);
-      }
-    }
-
-    return personDescriptions;
+    return personAreaIds.entrySet().stream()
+              .flatMap(entry -> entry.getValue().stream()
+                      .map(value -> new AbstractMap.SimpleImmutableEntry<>(
+                              persons.stream().filter(person -> person.getId() == entry.getKey()).findFirst().get().getFirstName(),
+                              areas.stream().filter(area -> area.getId() == value).findFirst().get().getName())))
+              .map(entry -> String.join(" - ", entry.getKey(), entry.getValue()))
+              .collect(Collectors.toSet());
   }
 
   @Override

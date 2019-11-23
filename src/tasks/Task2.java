@@ -6,6 +6,7 @@ import common.Task;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
 Задача 2
@@ -20,15 +21,11 @@ public class Task2 implements Task {
                                                       Collection<Person> persons2,
                                                       int limit) {
 
-    List<Person> combinePersons = new ArrayList<>(persons1);
-    combinePersons.addAll(persons2);
-
-    List<Person> combineAndSortPersons = combinePersons.stream()
+    return Stream.of(persons1, persons2)
+            .flatMap(Collection::stream)
             .sorted(Comparator.comparing(Person::getCreatedAt))
             .limit(limit)
             .collect(Collectors.toList());
-
-    return combineAndSortPersons;
   }
 
   @Override

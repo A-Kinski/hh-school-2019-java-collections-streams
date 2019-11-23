@@ -4,10 +4,7 @@ import common.Person;
 import common.PersonService;
 import common.Task;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
  */
 
 /*
-* Ассимптотика - O{n*n)
+* Ассимптотика - O(n)
 * */
 public class Task1 implements Task {
 
@@ -26,12 +23,9 @@ public class Task1 implements Task {
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
 
-    List<Person> orderedPersons = personIds.stream()
-            .flatMap(
-                    id -> persons.stream().filter(person -> person.getId() == id)
-            ).collect(Collectors.toList());
-
-    return orderedPersons;
+    return persons.stream().sorted(
+            Comparator.comparing(person -> personIds.indexOf(person.getId()))
+    ).collect(Collectors.toList());
   }
 
   @Override

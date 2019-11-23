@@ -16,14 +16,11 @@ public class Task7 implements Task {
 
   private Set<String> vacancyNames(Collection<Company> companies) {
 
-    Set<String> vacancyNames = companies.stream()
-            .map(company -> company.getVacancies())
-            .flatMap(vacancies -> vacancies.stream())
-            .distinct()
+    return companies.stream()
+            .flatMap(company -> company.getVacancies().stream())
             .map(vacancy -> vacancy.getTitle())
             .collect(Collectors.toSet());
 
-    return vacancyNames;
   }
 
   @Override
