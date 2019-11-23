@@ -4,6 +4,7 @@ import common.Person;
 import common.PersonService;
 import common.Task;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +16,22 @@ import java.util.stream.Collectors;
 нужно их отсортировать в том же порядке, что и переданные id.
 Оценить асимпотику работы
  */
+
+/*
+* Ассимптотика - O{n*n)
+* */
 public class Task1 implements Task {
 
   // !!! Редактируйте этот метод !!!
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
-    return Collections.emptyList();
+
+    List<Person> orderedPersons = personIds.stream()
+            .flatMap(
+                    id -> persons.stream().filter(person -> person.getId() == id)
+            ).collect(Collectors.toList());
+
+    return orderedPersons;
   }
 
   @Override
