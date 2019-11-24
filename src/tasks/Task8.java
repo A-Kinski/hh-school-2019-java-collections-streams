@@ -40,11 +40,9 @@ public class Task8 implements Task {
 
   // функция возврщает полное имя персоны
   public String convertPersonToString(Person person) {
-    List<String> personNames = new ArrayList<>(
-      Arrays.asList(person.getSecondName(), person.getMiddleName(), person.getFirstName())
-    );
-    personNames.removeAll(Collections.singleton(null));
-    return personNames.stream().collect(Collectors.joining(" "));
+    return Stream.of(person.getSecondName(), person.getMiddleName(), person.getFirstName())
+            .filter(name -> name != null)
+            .collect(Collectors.joining(" "));
   }
 
   // словарь id персоны -> ее имя
@@ -64,9 +62,7 @@ public class Task8 implements Task {
 
   // функция проверки коллекций на наличие совпадающих персон
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    /* заменим проверку через массивы на проверку через stream
-    * уменьшили ассимпотику с О(n*n) до O(n)
-    * */
+    /* заменим проверку через массивы на проверку через stream */
     return persons1.stream()
             .anyMatch(persons2::contains);
   }
