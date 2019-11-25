@@ -5,6 +5,7 @@ import common.PersonService;
 import common.Task;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /*
@@ -15,16 +16,22 @@ import java.util.stream.Collectors;
  */
 
 /*
-* Ассимптотика - O(n)
+* Ассимптотика создания List - O(n)
+* Ассимптотика создания mapPersons - также O(n)
+* Таким образом общая ассимптотика функции O(n)
 * */
 public class Task1 implements Task {
 
   // !!! Редактируйте этот метод !!!
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
-    return persons.stream().sorted(
-            Comparator.comparing(person -> personIds.indexOf(person.getId()))
-    ).collect(Collectors.toList());
+
+    Map<Integer, Person> mapPersons = persons.stream().collect(Collectors.toMap(Person::getId, Function.identity()));
+
+    return personIds.stream()
+            .map(id -> mapPersons.get(id))
+            .collect(Collectors.toList());
+
   }
 
   @Override
