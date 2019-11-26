@@ -62,9 +62,13 @@ public class Task8 implements Task {
 
   // функция проверки коллекций на наличие совпадающих персон
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    /* заменим проверку через массивы на проверку через stream */
-    return persons1.stream()
-            .anyMatch(persons2::contains);
+    /*Если я правильно посчитал, то new HashSet и  addAll отработают за O(n)
+    * (так как HashSet.add() отрабатывает за O(1))
+    * Таким образом ассимптотика всей функции O(n)*/
+    HashSet<Person> personHashSet = new HashSet<>(persons1);
+    personHashSet.addAll(persons2);
+    if (persons1.size() + persons2.size() != personHashSet.size()) return true;
+    else return false;
   }
 
   //Функция возвращает количество четных чисел в потоке
